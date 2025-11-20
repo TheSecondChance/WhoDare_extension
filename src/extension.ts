@@ -187,10 +187,13 @@ export function activate(context: vscode.ExtensionContext) {
     return trackerData.files[filePath];
   }
 
-  // Helper function to get today's date in YYYY-MM-DD format
+  // Helper function to get today's date in YYYY-MM-DD format (using local timezone)
   function getTodayDate(): string {
     const now = new Date();
-    return now.toISOString().split("T")[0];
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   }
 
   // Helper function to get or create today's daily stats
@@ -200,9 +203,13 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     const today = getTodayDate();
+    console.log(`[whoDare] Getting stats for date: ${today}`);
+
+    // Find existing stats for today
     let dailyStat = trackerData.dailyStats.find((d) => d.date === today);
 
     if (!dailyStat) {
+      console.log(`[whoDare] Creating new daily stats for ${today}`);
       dailyStat = {
         date: today,
         humanLines: 0,
@@ -212,6 +219,10 @@ export function activate(context: vscode.ExtensionContext) {
         events: 0,
       };
       trackerData.dailyStats.push(dailyStat);
+    } else {
+      console.log(
+        `[whoDare] Found existing stats for ${today}, events: ${dailyStat.events}`
+      );
     }
 
     return dailyStat;

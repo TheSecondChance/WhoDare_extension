@@ -148,14 +148,14 @@ function App() {
             {/* Summary Cards */}
             <StatsSummary stats={data.sessionStats} />
 
-            {/* Charts Row */}
-            <div className="grid gap-6 md:grid-cols-2">
-              <StatsChart
-                humanLines={data.sessionStats.totalHumanLines}
-                aiLines={data.sessionStats.totalAiLines}
-              />
-              <TimelineChart dailyStats={data.dailyStats || []} />
-            </div>
+            {/* Enhanced Stats Chart */}
+            <StatsChart
+              sessionStats={data.sessionStats}
+              dailyStats={data.dailyStats || []}
+            />
+
+            {/* Timeline Chart */}
+            <TimelineChart dailyStats={data.dailyStats || []} />
 
             {/* Daily Breakdown */}
             <DailyBreakdown dailyStats={data.dailyStats || []} />
