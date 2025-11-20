@@ -1,0 +1,49 @@
+{
+  "name": "howdare",
+  "displayName": "whoDare",
+  "description": "Tracks human vs AI code contributions in real-time",
+  "version": "1.0.0",
+  "publisher": "myname",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "howDare.showStats",
+        "title": "Show Code Statistics",
+        "category": "whoDare"
+      }
+    ],
+    "configuration": {
+      "title": "whoDare",
+      "properties": {
+        "howDare.encryptionKey": {
+          "type": "string",
+          "default": "",
+          "description": "Custom encryption key for securing your code statistics. Leave empty to use auto-generated key."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.75.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.0"
+  }
+}
