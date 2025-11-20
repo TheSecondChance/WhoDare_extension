@@ -8,17 +8,17 @@ A comprehensive VS Code extension and web viewer for tracking and visualizing AI
 
 - **Real-time Tracking**: Monitors text changes across all open files
 - **AI Detection**: Automatically identifies AI-generated code using inline completion API and heuristics
-- **Encrypted Storage**: Securely stores statistics in `.howdare/stats.json`
+- **Plain JSON Storage**: Stores statistics in readable `.howdare/stats.json`
 - **Per-file Breakdown**: Track contributions on a file-by-file basis
 - **Historical Tracking**: Complete history of every code change event
-- **Content Hashing**: Hash-based tracking to detect external file changes
+- **Daily Statistics**: Track your coding activity day by day
 - **Visual Stats**: Beautiful in-editor statistics dashboard
 
 ### Web Viewer
 
 - **GitHub Integration**: Fetch and display stats from any GitHub repository
-- **Encrypted Data**: Client-side decryption of statistics files
-- **Rich Visualizations**: Pie charts, timelines, and detailed tables
+- **Plain JSON Format**: Directly loads readable statistics files
+- **Rich Visualizations**: Pie charts, timelines, daily breakdowns, and detailed tables
 - **Dark/Light Mode**: Automatic theme detection with manual toggle
 - **Responsive Design**: Works on all devices
 - **Modern UI**: Built with React, TypeScript, and shadcn/ui
@@ -49,19 +49,7 @@ npm run dev
 2. The extension activates automatically
 3. Start coding - changes are tracked automatically
 4. Click the status bar item to view statistics
-5. Stats are saved to `.howdare/stats.json` (encrypted)
-
-### Configuration
-
-Set a custom encryption key in VS Code settings:
-
-```json
-{
-  "howDare.encryptionKey": "your-custom-key-here"
-}
-```
-
-Leave empty to use auto-generated workspace-based key.
+5. Stats are saved to `.howdare/stats.json` (plain JSON format)
 
 ### Viewing Statistics
 
@@ -74,34 +62,53 @@ Leave empty to use auto-generated workspace-based key.
 
 1. Build and run the web viewer
 2. Enter your GitHub repository URL
-3. Data is automatically decrypted
+3. Data is automatically loaded
 4. View beautiful visualizations!
 
 ## 📊 Data Format
 
-The extension stores encrypted data in `.howdare/stats.json`:
+The extension stores data in plain JSON format in `.howdare/stats.json`:
 
 ```json
 {
   "version": "1.0",
-  "encrypted": true,
-  "data": "<base64-encrypted-payload>",
-  "workspaceId": "<workspace-identifier>"
+  "workspaceId": "workspace-path",
+  "files": {
+    "src/example.ts": {
+      "humanLines": 145,
+      "aiLines": 67,
+      "humanChars": 3421,
+      "aiChars": 1523,
+      "history": [...]
+    }
+  },
+  "globalHistory": [...],
+  "sessionStats": {
+    "totalHumanLines": 145,
+    "totalAiLines": 67,
+    "totalHumanChars": 3421,
+    "totalAiChars": 1523
+  },
+  "dailyStats": [
+    {
+      "date": "2025-01-15",
+      "humanLines": 145,
+      "aiLines": 67,
+      "humanChars": 3421,
+      "aiChars": 1523,
+      "events": 42
+    }
+  ],
+  "lastUpdated": 1705401234567
 }
 ```
 
-Decrypted payload contains:
+The data contains:
 
-- Per-file statistics (lines, characters, hashes)
+- Per-file statistics (lines, characters)
 - Historical events (timestamps, operations)
 - Session statistics (totals)
-
-## 🔐 Security
-
-- **AES-256-GCM Encryption**: Military-grade encryption
-- **PBKDF2 Key Derivation**: Secure password-based key generation
-- **Content Hashing**: SHA-256 for file integrity
-- **Client-side Decryption**: Keys never leave your machine
+- Daily statistics (day-by-day breakdown)
 
 ## 🛠 Development
 
@@ -193,9 +200,9 @@ MIT License - feel free to use this project for any purpose.
 ### Web Viewer Features
 
 - Real-time GitHub fetching
-- Automatic decryption
+- Automatic data loading
 - Multiple chart types
-- Export capabilities
+- Daily breakdown table
 - Shareable URLs
 - Mobile-friendly interface
 

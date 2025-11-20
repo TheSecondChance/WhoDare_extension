@@ -3,8 +3,16 @@ export interface FileStats {
   aiLines: number;
   humanChars: number;
   aiChars: number;
-  hash: string;
   history: HistoryEvent[];
+}
+
+export interface DailyStats {
+  date: string; // YYYY-MM-DD format
+  humanLines: number;
+  aiLines: number;
+  humanChars: number;
+  aiChars: number;
+  events: number; // Number of coding events that day
 }
 
 export interface HistoryEvent {
@@ -35,13 +43,7 @@ export interface TrackerData {
   files: FileTracking;
   globalHistory: HistoryEvent[];
   sessionStats: SessionStats;
+  dailyStats: DailyStats[]; // Daily usage breakdown
   lastUpdated: number;
-}
-
-export interface EncryptedData {
-  version: string;
-  encrypted: boolean;
-  data: string;
-  workspaceId?: string;
 }
 

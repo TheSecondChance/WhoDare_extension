@@ -52,7 +52,7 @@ export function StatsChart({ humanLines, aiLines }: StatsChartProps) {
               fill="#8884d8"
               dataKey="value"
             >
-              {data.map((entry, index) => (
+              {data.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={index === 0 ? COLORS.human : COLORS.ai} />
               ))}
             </Pie>

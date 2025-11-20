@@ -1,5 +1,4 @@
-import { EncryptedData, TrackerData } from '../types';
-import { decrypt, generateDefaultKey } from './crypto';
+import { TrackerData } from '../types';
 
 /**
  * Parses a GitHub URL to extract owner, repo, and branch
@@ -42,7 +41,7 @@ export async function fetchStatsFromGitHub(
   owner: string,
   repo: string,
   branch?: string
-): Promise<EncryptedData> {
+): Promise<TrackerData> {
   // Try multiple branches if not specified
   const branches = branch ? [branch] : ['main', 'master'];
   
@@ -60,7 +59,7 @@ export async function fetchStatsFromGitHub(
         continue; // Try next branch
       }
 
-      const data: EncryptedData = await response.json();
+      const data: TrackerData = await response.json();
       console.log('Successfully fetched and parsed stats file');
       return data;
     } catch (error) {
@@ -80,31 +79,9 @@ export async function fetchStatsFromGitHub(
 }
 
 /**
- * Decrypts tracker data (plain JSON, no compression)
+ * Fetches tracker data from GitHub (plain JSON format)
  */
-export async function decryptTrackerData(
-  encryptedData: EncryptedData,
-  password: string
-): Promise<TrackerData> {
-  try {
-    if (!encryptedData.encrypted) {
-      throw new Error('Data is not encrypted');
-    }
-
-    const decryptedJson = await decrypt(encryptedData.data, password);
-    const data: TrackerData = JSON.parse(decryptedJson);
-    
-    return data;
-  } catch (error) {
-    throw new Error(`Failed to decrypt data: ${error}`);
-  }
-}
-
-/**
- * Fetches and decrypts tracker data from GitHub
- * Automatically uses the default key from workspaceId
- */
-export async function fetchAndDecryptData(
+export async function fetchData(
   githubUrl: string
 ): Promise<TrackerData> {
   const parsed = parseGitHubUrl(githubUrl);
@@ -113,28 +90,39 @@ export async function fetchAndDecryptData(
     throw new Error('Invalid GitHub URL. Please use format: https://github.com/owner/repo');
   }
 
-  const encryptedData = await fetchStatsFromGitHub(
+  const data = await fetchStatsFromGitHub(
     parsed.owner,
     parsed.repo,
     parsed.branch !== 'main' ? parsed.branch : undefined
   );
 
-  // Automatically decrypt using the workspaceId from the file
-  if (!encryptedData.workspaceId) {
-    throw new Error('Stats file is missing workspaceId. This file may be corrupted.');
+  // Ensure backward compatibility: add dailyStats if missing
+  if (!data.dailyStats) {
+    data.dailyStats = [];
+    console.log('Added missing dailyStats field for backward compatibility');
   }
 
-  const defaultKey = await generateDefaultKey(encryptedData.workspaceId);
-  
-  try {
-    const data = await decryptTrackerData(encryptedData, defaultKey);
-    console.log('Successfully decrypted stats data');
-    return data;
-  } catch (error) {
-    throw new Error(
-      `Failed to decrypt the stats file. The file may be corrupted or from an incompatible version. ` +
-      `Error: ${error}`
-    );
+  // Ensure sessionStats exists
+  if (!data.sessionStats) {
+    data.sessionStats = {
+      totalHumanLines: 0,
+      totalAiLines: 0,
+      totalHumanChars: 0,
+      totalAiChars: 0,
+    };
   }
+
+  // Ensure files exists
+  if (!data.files) {
+    data.files = {};
+  }
+
+  // Ensure globalHistory exists
+  if (!data.globalHistory) {
+    data.globalHistory = [];
+  }
+
+  console.log('Successfully loaded stats data');
+  return data;
 }
 

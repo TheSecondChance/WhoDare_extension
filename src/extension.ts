@@ -11,7 +11,6 @@ import {
   debouncedSave,
   createEmptyTrackerData,
 } from "./storage";
-import { hashContent } from "./crypto";
 
 let trackerData: TrackerData | null = null;
 let workspaceFolder: vscode.WorkspaceFolder | null = null;
@@ -122,7 +121,9 @@ export function activate(context: vscode.ExtensionContext) {
       if (
         context.isAiGenerated &&
         now - context.timestamp < 1000 &&
-        text.includes(context.text.substring(0, Math.min(20, context.text.length)))
+        text.includes(
+          context.text.substring(0, Math.min(20, context.text.length))
+        )
       ) {
         inlineCompletionTracker.delete(key);
         return "ai";
@@ -165,24 +166,55 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   // Helper function to get or create file stats
-  function getFileStats(filePath: string, document: vscode.TextDocument): FileStats {
+  function getFileStats(
+    filePath: string,
+    document: vscode.TextDocument
+  ): FileStats {
     if (!trackerData) {
       throw new Error("Tracker data not initialized");
     }
 
     if (!trackerData.files[filePath]) {
-      const content = document.getText();
       trackerData.files[filePath] = {
         humanLines: 0,
         aiLines: 0,
         humanChars: 0,
         aiChars: 0,
-        hash: hashContent(content),
         history: [],
       };
     }
 
     return trackerData.files[filePath];
+  }
+
+  // Helper function to get today's date in YYYY-MM-DD format
+  function getTodayDate(): string {
+    const now = new Date();
+    return now.toISOString().split("T")[0];
+  }
+
+  // Helper function to get or create today's daily stats
+  function getTodayStats() {
+    if (!trackerData) {
+      throw new Error("Tracker data not initialized");
+    }
+
+    const today = getTodayDate();
+    let dailyStat = trackerData.dailyStats.find((d) => d.date === today);
+
+    if (!dailyStat) {
+      dailyStat = {
+        date: today,
+        humanLines: 0,
+        aiLines: 0,
+        humanChars: 0,
+        aiChars: 0,
+        events: 0,
+      };
+      trackerData.dailyStats.push(dailyStat);
+    }
+
+    return dailyStat;
   }
 
   // Helper function to add history event
@@ -193,20 +225,12 @@ export function activate(context: vscode.ExtensionContext) {
     const fileStats = trackerData.files[event.fileName];
     if (fileStats) {
       fileStats.history.push(event);
-
-      // Keep last 30 events per file (enough for detail view)
-      if (fileStats.history.length > 30) {
-        fileStats.history = fileStats.history.slice(-30);
-      }
+      // No limit - keep all events
     }
 
     // Add to global history
     trackerData.globalHistory.push(event);
-
-    // Keep last 100 events globally (enough for timeline charts)
-    if (trackerData.globalHistory.length > 100) {
-      trackerData.globalHistory = trackerData.globalHistory.slice(-100);
-    }
+    // No limit - keep all events
   }
 
   // Text document change listener
@@ -220,9 +244,32 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    const fileUri = document.uri.toString();
     const relativePath = vscode.workspace.asRelativePath(document.uri);
+
+    // Skip tracking the stats.json file itself to avoid infinite loop
+    if (
+      relativePath.includes(".howdare") ||
+      relativePath.includes("stats.json")
+    ) {
+      return;
+    }
+
+    // Skip common auto-generated files and directories
+    if (
+      relativePath.includes("node_modules") ||
+      relativePath.includes(".git") ||
+      relativePath.includes("dist") ||
+      relativePath.includes("build") ||
+      relativePath.includes("out") ||
+      relativePath.endsWith(".log")
+    ) {
+      return;
+    }
+
     const stats = getFileStats(relativePath, document);
+
+    // Track if any actual changes were made
+    let hasChanges = false;
 
     // Process each change
     for (const change of event.contentChanges) {
@@ -230,6 +277,9 @@ export function activate(context: vscode.ExtensionContext) {
       if (change.rangeLength === 0 && change.text.length === 0) {
         continue;
       }
+
+      // Mark that we have actual changes
+      hasChanges = true;
 
       const editType = classifyEdit(change, document);
       const addedLines = change.text.length > 0 ? countLines(change.text) : 0;
@@ -259,17 +309,25 @@ export function activate(context: vscode.ExtensionContext) {
 
       addHistoryEvent(historyEvent);
 
+      // Get today's stats
+      const todayStats = getTodayStats();
+      todayStats.events++;
+
       // Update file stats
       if (editType === "human") {
         stats.humanLines += addedLines;
         stats.humanChars += addedChars;
         trackerData.sessionStats.totalHumanLines += addedLines;
         trackerData.sessionStats.totalHumanChars += addedChars;
+        todayStats.humanLines += addedLines;
+        todayStats.humanChars += addedChars;
       } else {
         stats.aiLines += addedLines;
         stats.aiChars += addedChars;
         trackerData.sessionStats.totalAiLines += addedLines;
         trackerData.sessionStats.totalAiChars += addedChars;
+        todayStats.aiLines += addedLines;
+        todayStats.aiChars += addedChars;
       }
 
       // Handle deletions
@@ -293,14 +351,14 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
 
-    // Update file hash
-    stats.hash = hashContent(document.getText());
-    trackerData.lastUpdated = Date.now();
+    // Only save if there were actual changes
+    if (hasChanges) {
+      trackerData.lastUpdated = Date.now();
+      updateStatusBar();
 
-    updateStatusBar();
-
-    // Debounced save to disk
-    debouncedSave(workspaceFolder!, trackerData);
+      // Debounced save to disk
+      debouncedSave(workspaceFolder!, trackerData);
+    }
   });
 
   // Show stats command

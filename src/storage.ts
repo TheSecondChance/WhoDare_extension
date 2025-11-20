@@ -1,8 +1,7 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
-import { TrackerData, EncryptedData } from "./types";
-import { encrypt, decrypt, generateDefaultKey } from "./crypto";
+import { TrackerData } from "./types";
 
 const STORAGE_DIR = ".howdare";
 const STORAGE_FILE = "stats.json";
@@ -35,49 +34,9 @@ export function ensureStorageDirectory(
   }
 }
 
-/**
- * Gets the encryption key for the workspace
- * Can be configured by user or uses default
- */
-export function getEncryptionKey(
-  workspaceFolder: vscode.WorkspaceFolder
-): string {
-  const config = vscode.workspace.getConfiguration("howDare");
-  const userKey = config.get<string>("encryptionKey");
-
-  if (userKey && userKey.trim().length > 0) {
-    return userKey;
-  }
-
-  // Generate default key based on workspace path
-  const workspaceId = workspaceFolder.uri.fsPath;
-  return generateDefaultKey(workspaceId);
-}
 
 /**
- * Optimizes tracker data by limiting history size
- */
-function optimizeTrackerData(data: TrackerData): TrackerData {
-  const optimized = { ...data };
-  
-  // Keep last 100 global history events for timeline charts
-  if (optimized.globalHistory.length > 100) {
-    optimized.globalHistory = optimized.globalHistory.slice(-100);
-  }
-  
-  // Keep last 30 events per file
-  for (const filePath in optimized.files) {
-    const fileStats = optimized.files[filePath];
-    if (fileStats.history.length > 30) {
-      fileStats.history = fileStats.history.slice(-30);
-    }
-  }
-  
-  return optimized;
-}
-
-/**
- * Saves tracker data to encrypted file (minified JSON, no compression)
+ * Saves tracker data to plain JSON file (formatted for readability)
  */
 export async function saveTrackerData(
   workspaceFolder: vscode.WorkspaceFolder,
@@ -86,25 +45,9 @@ export async function saveTrackerData(
   try {
     ensureStorageDirectory(workspaceFolder);
 
-    // Optimize data (reduce history)
-    const optimizedData = optimizeTrackerData(data);
-
-    const encryptionKey = getEncryptionKey(workspaceFolder);
-    
-    // Minified JSON (no whitespace) then encrypt
-    const jsonData = JSON.stringify(optimizedData);
-    const encryptedPayload = encrypt(jsonData, encryptionKey);
-
-    const encryptedData: EncryptedData = {
-      version: "1.0",
-      encrypted: true,
-      data: encryptedPayload,
-      workspaceId: optimizedData.workspaceId,
-    };
-
     const filePath = getStatsFilePath(workspaceFolder);
-    // Save minified (no whitespace)
-    fs.writeFileSync(filePath, JSON.stringify(encryptedData), "utf8");
+    // Save formatted JSON (2 space indentation) for readability
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
 
     console.log(`[whoDare] Data saved to ${filePath}`);
   } catch (error) {
@@ -114,7 +57,7 @@ export async function saveTrackerData(
 }
 
 /**
- * Loads tracker data from encrypted file
+ * Loads tracker data from plain JSON file
  */
 export async function loadTrackerData(
   workspaceFolder: vscode.WorkspaceFolder
@@ -128,16 +71,30 @@ export async function loadTrackerData(
     }
 
     const fileContent = fs.readFileSync(filePath, "utf8");
-    const encryptedData: EncryptedData = JSON.parse(fileContent);
+    const parsedData = JSON.parse(fileContent);
 
-    if (!encryptedData.encrypted) {
-      console.warn("[whoDare] Data is not encrypted");
+    // Check if this is old encrypted format
+    if (parsedData.encrypted === true && parsedData.data) {
+      console.error("[whoDare] Old encrypted format detected. Cannot load encrypted data.");
+      console.error("[whoDare] Please delete .howdare/stats.json to start fresh with plain JSON.");
       return null;
     }
 
-    const encryptionKey = getEncryptionKey(workspaceFolder);
-    const decryptedJson = decrypt(encryptedData.data, encryptionKey);
-    const data: TrackerData = JSON.parse(decryptedJson);
+    const data: TrackerData = parsedData as TrackerData;
+
+    // Backward compatibility: ensure dailyStats exists
+    if (!data.dailyStats) {
+      data.dailyStats = [];
+      console.log("[whoDare] Migrated old data format to include dailyStats");
+    }
+
+    // Remove hash field from files if it exists (migration from old format)
+    for (const filePath in data.files) {
+      const fileStats = data.files[filePath] as any;
+      if (fileStats.hash !== undefined) {
+        delete fileStats.hash;
+      }
+    }
 
     console.log(`[whoDare] Data loaded from ${filePath}`);
     return data;
@@ -162,6 +119,7 @@ export function createEmptyTrackerData(workspaceId: string): TrackerData {
       totalHumanChars: 0,
       totalAiChars: 0,
     },
+    dailyStats: [],
     lastUpdated: Date.now(),
   };
 }

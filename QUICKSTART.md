@@ -65,8 +65,8 @@ Since you just started using the extension, you can:
 
 ### On the Web:
 - ✅ GitHub repository integration
-- ✅ Encrypted data viewer
-- ✅ Rich visualizations (charts, tables)
+- ✅ Plain JSON data viewer
+- ✅ Rich visualizations (charts, tables, daily breakdowns)
 - ✅ Dark/light mode
 - ✅ Shareable statistics
 
@@ -76,9 +76,9 @@ Since you just started using the extension, you can:
 
 1. **Read the full documentation**: See `README.md`
 2. **Learn advanced usage**: See `USAGE.md`
-3. **Customize encryption**: Set `howDare.encryptionKey` in VS Code settings
-4. **Deploy the web viewer**: Use Vercel, Netlify, or GitHub Pages
-5. **Share your stats**: Commit `.howdare/stats.json` to your repo
+3. **Deploy the web viewer**: Use Vercel, Netlify, or GitHub Pages
+4. **Share your stats**: Commit `.howdare/stats.json` to your repo
+5. **Review daily stats**: Check the daily breakdown to track your progress
 
 ---
 
@@ -87,7 +87,8 @@ Since you just started using the extension, you can:
 - **Inline completions are tracked as AI**: Use Copilot and watch the stats change!
 - **Large pastes are marked as AI**: Copy/paste large blocks to see the detection
 - **Stats persist across sessions**: Your data is saved and accumulates over time
-- **Default encryption just works**: No configuration needed for basic use
+- **All history is preserved**: No limits on daily stats, events, or history
+- **Plain JSON format**: Easy to inspect and read your stats file
 
 ---
 

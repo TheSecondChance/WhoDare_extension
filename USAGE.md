@@ -36,13 +36,7 @@ This guide will walk you through setting up and using the whoDare system.
    - Look at the status bar (bottom left): `whoDare: Human X% | AI Y%`
    - Click it to see detailed statistics
 
-3. **Configure Encryption (Optional)**
-   - Open VS Code Settings (`Ctrl+,` or `Cmd+,`)
-   - Search for "whoDare"
-   - Set `howDare.encryptionKey` to your custom key
-   - Leave empty to use auto-generated key (recommended)
-
-4. **View Statistics**
+3. **View Statistics**
    - Click the status bar item, OR
    - Open Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`)
    - Run: `whoDare: Show Code Statistics`
@@ -60,9 +54,10 @@ The extension tracks:
 ### Data Storage
 
 Statistics are stored in `.howdare/stats.json`:
-- **Encrypted** using AES-256-GCM
+- **Plain JSON format** - readable and easy to inspect
 - **Persistent** across sessions
 - **Shareable** on GitHub
+- **No limits** - all history, events, and daily stats are preserved
 
 ## Part 2: Sharing Your Statistics
 
@@ -158,19 +153,16 @@ npx gh-pages -d dist
    https://github.com/username/repository
    ```
 
-3. **Optional: Enter Encryption Key**
-   - Leave empty if using default key
-   - Enter custom key if you configured one
-
-4. **Click "Fetch Statistics"**
-   - The viewer will fetch and decrypt your stats
+3. **Click "Fetch Statistics"**
+   - The viewer will fetch your stats
    - View beautiful visualizations!
 
 ### Features
 
 - **Summary Cards**: Quick overview of your coding stats
 - **Pie Chart**: Visual distribution of human vs AI code
-- **Timeline Chart**: Activity over time
+- **Daily Timeline Chart**: Last 30 days of activity
+- **Daily Breakdown Table**: Detailed day-by-day statistics
 - **File Breakdown**: Detailed per-file statistics
 - **Dark/Light Mode**: Toggle theme with the button in the header
 
@@ -181,21 +173,7 @@ Share your repository URL with others:
 https://your-viewer-url.vercel.app/?repo=github.com/username/repo
 ```
 
-## Part 5: Advanced Configuration
-
-### Custom Encryption Key
-
-**In VS Code:**
-```json
-{
-  "howDare.encryptionKey": "my-super-secret-key"
-}
-```
-
-**In Web Viewer:**
-- Enter the same key in the "Encryption Key" field
-
-### Automation
+## Part 5: Automation
 
 **Auto-commit stats** (add to `.github/workflows/codetracker.yml`):
 ```yaml
@@ -232,12 +210,12 @@ jobs:
 2. Look for errors in Debug Console (`F12`)
 3. Verify `.howdare` directory has write permissions
 
-### Web Viewer Decryption Fails
+### Web Viewer Fetch Fails
 
 1. Ensure the stats file exists in the repository
-2. Check if you're using a custom encryption key
-3. Verify the repository URL is correct
-4. Try using the default key (leave field empty)
+2. Verify the repository URL is correct
+3. Check if the file is committed to the repository
+4. Try different branches (main, master)
 
 ### Build Errors
 
@@ -268,16 +246,16 @@ npm run build
 
 ### For Privacy
 
-1. **Use custom encryption keys** for sensitive projects
-2. **Don't commit stats** if working on proprietary code
-3. **Review data** before making repository public
+1. **Don't commit stats** if working on proprietary code
+2. **Review data** before making repository public
+3. **Add to .gitignore** if you want to keep stats local
 
 ### For Teams
 
-1. **Standardize encryption key** across team
-2. **Include stats in code reviews** to discuss AI usage
-3. **Track team trends** over time
-4. **Set guidelines** for AI assistance
+1. **Include stats in code reviews** to discuss AI usage
+2. **Track team trends** over time
+3. **Set guidelines** for AI assistance
+4. **Compare daily stats** to identify productivity patterns
 
 ## Part 8: Example Workflows
 

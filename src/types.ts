@@ -3,7 +3,6 @@ export interface FileStats {
   aiLines: number;
   humanChars: number;
   aiChars: number;
-  hash: string; // Content hash for tracking changes
   history: HistoryEvent[];
 }
 
@@ -12,6 +11,15 @@ export interface SessionStats {
   totalAiLines: number;
   totalHumanChars: number;
   totalAiChars: number;
+}
+
+export interface DailyStats {
+  date: string; // YYYY-MM-DD format
+  humanLines: number;
+  aiLines: number;
+  humanChars: number;
+  aiChars: number;
+  events: number; // Number of coding events that day
 }
 
 export interface HistoryEvent {
@@ -35,14 +43,8 @@ export interface TrackerData {
   files: FileTracking;
   globalHistory: HistoryEvent[];
   sessionStats: SessionStats;
+  dailyStats: DailyStats[]; // Daily usage breakdown
   lastUpdated: number;
-}
-
-export interface EncryptedData {
-  version: string;
-  encrypted: boolean;
-  data: string; // Base64 encoded encrypted payload
-  workspaceId?: string; // Optional identifier
 }
 
 export interface InlineCompletionContext {

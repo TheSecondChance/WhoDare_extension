@@ -1,65 +1,74 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { HistoryEvent } from '../types';
+import { DailyStats } from '../types';
 
 interface TimelineChartProps {
-  history: HistoryEvent[];
+  dailyStats: DailyStats[];
 }
 
-export function TimelineChart({ history }: TimelineChartProps) {
-  if (history.length === 0) {
+export function TimelineChart({ dailyStats }: TimelineChartProps) {
+  if (dailyStats.length === 0) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Activity Timeline</CardTitle>
+          <CardTitle>Daily Activity Timeline</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground text-center py-8">
-            No historical data available
+            No daily data available yet
           </p>
         </CardContent>
       </Card>
     );
   }
 
-  // Group events by hour
-  const groupedData = history.reduce((acc, event) => {
-    const date = new Date(event.timestamp);
-    const hourKey = `${date.toLocaleDateString()} ${date.getHours()}:00`;
-    
-    if (!acc[hourKey]) {
-      acc[hourKey] = { time: hourKey, human: 0, ai: 0 };
-    }
-    
-    if (event.type === 'human') {
-      acc[hourKey].human += event.linesAdded;
-    } else {
-      acc[hourKey].ai += event.linesAdded;
-    }
-    
-    return acc;
-  }, {} as Record<string, { time: string; human: number; ai: number }>);
+  // Sort by date and get last 30 days
+  const sortedStats = [...dailyStats].sort((a, b) => 
+    new Date(a.date).getTime() - new Date(b.date).getTime()
+  ).slice(-30);
 
-  const chartData = Object.values(groupedData).slice(-20); // Last 20 time periods
+  // Format data for chart
+  const chartData = sortedStats.map(stat => ({
+    date: new Date(stat.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+    fullDate: stat.date,
+    human: stat.humanLines,
+    ai: stat.aiLines,
+    events: stat.events,
+  }));
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Activity Timeline (Last 20 Periods)</CardTitle>
+        <CardTitle>Daily Activity (Last 30 Days)</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
-              dataKey="time" 
+              dataKey="date" 
               angle={-45}
               textAnchor="end"
               height={100}
               tick={{ fontSize: 10 }}
             />
-            <YAxis />
-            <Tooltip />
+            <YAxis label={{ value: 'Lines of Code', angle: -90, position: 'insideLeft' }} />
+            <Tooltip 
+              content={({ active, payload }) => {
+                if (active && payload && payload.length) {
+                  const data = payload[0].payload;
+                  return (
+                    <div className="bg-background border border-border p-3 rounded shadow-lg">
+                      <p className="font-semibold mb-1">{data.fullDate}</p>
+                      <p className="text-sm text-green-600">Human: {data.human} lines</p>
+                      <p className="text-sm text-orange-600">AI: {data.ai} lines</p>
+                      <p className="text-sm text-muted-foreground mt-1">{data.events} events</p>
+                    </div>
+                  );
+                }
+                return null;
+              }}
+            />
             <Legend />
             <Bar dataKey="human" fill="#4CAF50" name="Human Lines" />
             <Bar dataKey="ai" fill="#FF9800" name="AI Lines" />

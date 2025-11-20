@@ -12,7 +12,8 @@ import { StatsSummary } from "./components/StatsSummary";
 import { StatsChart } from "./components/StatsChart";
 import { TimelineChart } from "./components/TimelineChart";
 import { FileBreakdown } from "./components/FileBreakdown";
-import { fetchAndDecryptData } from "./utils/github";
+import { DailyBreakdown } from "./components/DailyBreakdown";
+import { fetchData } from "./utils/github";
 import { TrackerData } from "./types";
 import { Moon, Sun, Github, Loader2 } from "lucide-react";
 
@@ -50,11 +51,14 @@ function App() {
 
     setLoading(true);
     setError(null);
+    setData(null); // Clear previous data
 
     try {
-      const trackerData = await fetchAndDecryptData(repoUrl);
+      const trackerData = await fetchData(repoUrl);
+      console.log("Data loaded successfully:", trackerData);
       setData(trackerData);
     } catch (err) {
+      console.error("Error fetching data:", err);
       setError(err instanceof Error ? err.message : "Failed to fetch data");
     } finally {
       setLoading(false);
@@ -92,7 +96,7 @@ function App() {
               <code className="px-1 py-0.5 bg-muted rounded">
                 .howdare/stats.json
               </code>{" "}
-              file. Data is automatically decrypted.
+              file.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -109,8 +113,8 @@ function App() {
                 onKeyDown={(e) => e.key === "Enter" && handleFetchData()}
               />
               <p className="text-xs text-muted-foreground">
-                The viewer will automatically try common branches (main, master)
-                and decrypt the data.
+                The viewer will automatically try common branches (main,
+                master).
               </p>
             </div>
 
@@ -129,7 +133,7 @@ function App() {
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Fetching & Decrypting...
+                  Fetching...
                 </>
               ) : (
                 "Fetch Statistics"
@@ -150,8 +154,11 @@ function App() {
                 humanLines={data.sessionStats.totalHumanLines}
                 aiLines={data.sessionStats.totalAiLines}
               />
-              <TimelineChart history={data.globalHistory} />
+              <TimelineChart dailyStats={data.dailyStats || []} />
             </div>
+
+            {/* Daily Breakdown */}
+            <DailyBreakdown dailyStats={data.dailyStats || []} />
 
             {/* File Breakdown */}
             <FileBreakdown files={data.files} />
@@ -188,6 +195,12 @@ function App() {
                       Total Events
                     </dt>
                     <dd>{data.globalHistory.length.toLocaleString()}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-muted-foreground">
+                      Days Tracked
+                    </dt>
+                    <dd>{(data.dailyStats || []).length} days</dd>
                   </div>
                 </dl>
               </CardContent>
