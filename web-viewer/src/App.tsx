@@ -162,49 +162,6 @@ function App() {
 
             {/* File Breakdown */}
             <FileBreakdown files={data.files} />
-
-            {/* Metadata */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Metadata</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <dl className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <dt className="font-medium text-muted-foreground">
-                      Version
-                    </dt>
-                    <dd className="font-mono">{data.version}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-medium text-muted-foreground">
-                      Workspace ID
-                    </dt>
-                    <dd className="font-mono text-xs truncate">
-                      {data.workspaceId}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="font-medium text-muted-foreground">
-                      Last Updated
-                    </dt>
-                    <dd>{new Date(data.lastUpdated).toLocaleString()}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-medium text-muted-foreground">
-                      Total Events
-                    </dt>
-                    <dd>{data.globalHistory.length.toLocaleString()}</dd>
-                  </div>
-                  <div>
-                    <dt className="font-medium text-muted-foreground">
-                      Days Tracked
-                    </dt>
-                    <dd>{(data.dailyStats || []).length} days</dd>
-                  </div>
-                </dl>
-              </CardContent>
-            </Card>
           </div>
         )}
 
