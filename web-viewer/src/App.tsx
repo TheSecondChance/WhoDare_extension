@@ -94,7 +94,7 @@ function App() {
               Enter a GitHub repository URL to view its code statistics. The
               repository must contain a{" "}
               <code className="px-1 py-0.5 bg-muted rounded">
-                .howdare/stats.json
+                .whodare/stats.json
               </code>{" "}
               file.
             </CardDescription>

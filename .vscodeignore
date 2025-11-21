@@ -1,0 +1,34 @@
+# Exclude web-viewer directory
+web-viewer/**
+
+# Exclude source files (we only need compiled output)
+src/**
+tsconfig.json
+
+# Exclude development files
+.gitignore
+.git
+.vscode/**
+.vscode-test/**
+
+# Exclude documentation (optional - remove these lines if you want to include them)
+*.md
+!README.md
+
+# Exclude data files
+.whodare/**
+.howdare/**
+
+# Exclude Node.js
+node_modules/**
+package-lock.json
+
+# Exclude test files
+**/*.test.ts
+**/*.spec.ts
+
+# Exclude misc
+.eslintrc.json
+.prettierrc
+*.log
+

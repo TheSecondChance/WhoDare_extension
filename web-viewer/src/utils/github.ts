@@ -49,7 +49,7 @@ export async function fetchStatsFromGitHub(
   
   for (const branchName of branches) {
     try {
-      const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branchName}/.howdare/stats.json`;
+      const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branchName}/.whodare/stats.json`;
       
       console.log(`Trying to fetch from: ${url}`);
       const response = await fetch(url);
@@ -71,7 +71,7 @@ export async function fetchStatsFromGitHub(
 
   // If we get here, all branches failed
   throw new Error(
-    `Could not find .howdare/stats.json in repository. ` +
+    `Could not find .whodare/stats.json in repository. ` +
     `Tried branches: ${branches.join(', ')}. ` +
     `Make sure you've committed the stats file to your repository. ` +
     `Last error: ${lastError?.message}`
