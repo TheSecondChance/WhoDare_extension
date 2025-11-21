@@ -3,7 +3,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { TrackerData } from "./types";
 
-const STORAGE_DIR = ".howdare";
+const STORAGE_DIR = ".whodare";
 const STORAGE_FILE = "stats.json";
 
 /**
@@ -76,7 +76,7 @@ export async function loadTrackerData(
     // Check if this is old encrypted format
     if (parsedData.encrypted === true && parsedData.data) {
       console.error("[whoDare] Old encrypted format detected. Cannot load encrypted data.");
-      console.error("[whoDare] Please delete .howdare/stats.json to start fresh with plain JSON.");
+      console.error("[whoDare] Please delete .whodare/stats.json to start fresh with plain JSON.");
       return null;
     }
 

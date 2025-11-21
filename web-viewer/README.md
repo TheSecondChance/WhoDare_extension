@@ -39,7 +39,7 @@ npm run preview
 ## How to Use
 
 1. **Generate Statistics**: Use the whoDare VS Code extension in your project to generate encrypted statistics
-2. **Push to GitHub**: Commit and push the `.howdare/stats.json` file to your repository
+2. **Push to GitHub**: Commit and push the `.whodare/stats.json` file to your repository
 3. **View Statistics**: Enter your GitHub repository URL in the web viewer
 4. **Auto-Decrypt**: The viewer automatically decrypts the data - no key needed!
 

@@ -116,7 +116,7 @@ The extension automatically migrates old data:
 ### Extension
 The extension automatically tracks daily statistics:
 1. Each coding event updates today's stats
-2. Stats are saved to `.howdare/stats.json`
+2. Stats are saved to `.whodare/stats.json`
 3. Data persists across sessions
 4. New day = new entry in dailyStats array
 
@@ -193,7 +193,7 @@ To test the new features:
 1. Compile extension: `npm run compile`
 2. Press F5 to launch extension
 3. Code in a new workspace
-4. Check `.howdare/stats.json` for dailyStats array
+4. Check `.whodare/stats.json` for dailyStats array
 5. Build web viewer: `cd web-viewer && npm run build`
 6. Run web viewer: `npm run dev`
 7. Load your stats and see daily breakdown

@@ -47,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Left,
     100
   );
-  statusBarItem.command = "howDare.showStats";
+  statusBarItem.command = "whoDare.showStats";
   statusBarItem.show();
 
   // Helper function to update status bar
@@ -259,7 +259,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Skip tracking the stats.json file itself to avoid infinite loop
     if (
-      relativePath.includes(".howdare") ||
+      relativePath.includes(".whodare") ||
       relativePath.includes("stats.json")
     ) {
       return;
@@ -374,7 +374,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Show stats command
   const showStatsCommand = vscode.commands.registerCommand(
-    "howDare.showStats",
+    "whoDare.showStats",
     () => {
       if (!trackerData) {
         vscode.window.showWarningMessage("whoDare: Data not loaded yet");
@@ -382,7 +382,7 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const panel = vscode.window.createWebviewPanel(
-        "howDareStats",
+        "whoDareStats",
         "whoDare Statistics",
         vscode.ViewColumn.One,
         {
@@ -523,7 +523,7 @@ function getWebviewContent(
         <div class="info-box">
             <strong>📊 Total Historical Events:</strong> ${totalEvents}
             <br>
-            <strong>💾 Data Status:</strong> Encrypted and saved to <code>.howdare/stats.json</code>
+            <strong>💾 Data Status:</strong> Encrypted and saved to <code>.whodare/stats.json</code>
             <br>
             <strong>🌐 Shareable:</strong> Push this file to GitHub to share your coding statistics!
         </div>

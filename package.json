@@ -1,9 +1,13 @@
 {
-  "name": "howdare",
+  "name": "whodare",
   "displayName": "whoDare",
   "description": "Tracks human vs AI code contributions in real-time",
   "version": "1.0.0",
   "publisher": "myname",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheSecondChance/WhoDare_extension.git"
+  },
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -17,7 +21,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "howDare.showStats",
+        "command": "whoDare.showStats",
         "title": "Show Code Statistics",
         "category": "whoDare"
       }
@@ -25,7 +29,7 @@
     "configuration": {
       "title": "whoDare",
       "properties": {
-        "howDare.encryptionKey": {
+        "whoDare.encryptionKey": {
           "type": "string",
           "default": "",
           "description": "Custom encryption key for securing your code statistics. Leave empty to use auto-generated key."

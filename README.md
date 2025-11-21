@@ -8,7 +8,7 @@ A comprehensive VS Code extension and web viewer for tracking and visualizing AI
 
 - **Real-time Tracking**: Monitors text changes across all open files
 - **AI Detection**: Automatically identifies AI-generated code using inline completion API and heuristics
-- **Plain JSON Storage**: Stores statistics in readable `.howdare/stats.json`
+- **Plain JSON Storage**: Stores statistics in readable `.whodare/stats.json`
 - **Per-file Breakdown**: Track contributions on a file-by-file basis
 - **Historical Tracking**: Complete history of every code change event
 - **Daily Statistics**: Track your coding activity day by day
@@ -49,7 +49,7 @@ npm run dev
 2. The extension activates automatically
 3. Start coding - changes are tracked automatically
 4. Click the status bar item to view statistics
-5. Stats are saved to `.howdare/stats.json` (plain JSON format)
+5. Stats are saved to `.whodare/stats.json` (plain JSON format)
 
 ### Viewing Statistics
 
@@ -67,7 +67,7 @@ npm run dev
 
 ## 📊 Data Format
 
-The extension stores data in plain JSON format in `.howdare/stats.json`:
+The extension stores data in plain JSON format in `.whodare/stats.json`:
 
 ```json
 {
@@ -211,7 +211,7 @@ MIT License - feel free to use this project for any purpose.
 1. **Install Extension**: Load the extension in VS Code
 2. **Start Coding**: Write code normally
 3. **View Stats**: Click status bar or run command
-4. **Push to GitHub**: Commit `.howdare/stats.json`
+4. **Push to GitHub**: Commit `.whodare/stats.json`
 5. **Share**: Use web viewer to visualize publicly
 
 ## 📧 Support

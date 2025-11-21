@@ -67,7 +67,7 @@ After:  ~8KB encrypted data
 
 ## Result
 
-Your `.howdare/stats.json` file will be:
+Your `.whodare/stats.json` file will be:
 - **Smaller** (~10x reduction)
 - **Faster** to upload/download
 - **Still functional** for all charts and visualizations

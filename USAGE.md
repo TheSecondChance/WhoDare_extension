@@ -53,7 +53,7 @@ The extension tracks:
 
 ### Data Storage
 
-Statistics are stored in `.howdare/stats.json`:
+Statistics are stored in `.whodare/stats.json`:
 - **Plain JSON format** - readable and easy to inspect
 - **Persistent** across sessions
 - **Shareable** on GitHub
@@ -65,7 +65,7 @@ Statistics are stored in `.howdare/stats.json`:
 
 ```bash
 # Add the stats file to git
-git add .howdare/stats.json
+git add .whodare/stats.json
 
 # Commit
 git commit -m "Add whoDare statistics"
@@ -78,7 +78,7 @@ git push origin main
 
 Add to `.gitignore`:
 ```
-.howdare/
+.whodare/
 ```
 
 ## Part 3: Web Viewer Setup
@@ -181,7 +181,7 @@ name: Update whoDare Stats
 on:
   push:
     paths:
-      - '.howdare/stats.json'
+      - '.whodare/stats.json'
 jobs:
   commit:
     runs-on: ubuntu-latest
@@ -191,7 +191,7 @@ jobs:
         run: |
           git config user.name "whoDare Bot"
           git config user.email "bot@codetracker.dev"
-          git add .howdare/stats.json
+          git add .whodare/stats.json
           git commit -m "Update whoDare statistics" || exit 0
           git push
 ```
@@ -208,7 +208,7 @@ jobs:
 
 1. Check if file is being saved
 2. Look for errors in Debug Console (`F12`)
-3. Verify `.howdare` directory has write permissions
+3. Verify `.whodare` directory has write permissions
 
 ### Web Viewer Fetch Fails
 
@@ -292,7 +292,7 @@ npm run build
 - Show Stats: `Ctrl+Shift+P` → `whoDare: Show Code Statistics`
 
 ### Useful Paths
-- Stats File: `.howdare/stats.json`
+- Stats File: `.whodare/stats.json`
 - Extension Source: `src/extension.ts`
 - Web Viewer: `web-viewer/`
 

@@ -23,7 +23,7 @@ Press `F5` in VS Code to launch the extension in debug mode.
 
 ### Step 3: View Your Data
 
-The statistics are automatically saved to `.howdare/stats.json` in your workspace.
+The statistics are automatically saved to `.whodare/stats.json` in your workspace.
 
 ---
 
@@ -43,7 +43,7 @@ The viewer will open at `http://localhost:5173`
 Since you just started using the extension, you can:
 
 **Option A: Use your own data**
-1. Push your `.howdare/stats.json` to a GitHub repo
+1. Push your `.whodare/stats.json` to a GitHub repo
 2. Enter the repo URL in the web viewer
 3. Click "Fetch Statistics" (auto-decrypts!)
 
@@ -77,7 +77,7 @@ Since you just started using the extension, you can:
 1. **Read the full documentation**: See `README.md`
 2. **Learn advanced usage**: See `USAGE.md`
 3. **Deploy the web viewer**: Use Vercel, Netlify, or GitHub Pages
-4. **Share your stats**: Commit `.howdare/stats.json` to your repo
+4. **Share your stats**: Commit `.whodare/stats.json` to your repo
 5. **Review daily stats**: Check the daily breakdown to track your progress
 
 ---

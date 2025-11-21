@@ -26,7 +26,7 @@ vs_code_extension/
 │   ├── storage.js
 │   └── types.js
 │
-├── 📁 .howdare/                 # Stats storage directory
+├── 📁 .whodare/                 # Stats storage directory
 │   ├── 📄 .gitkeep                  # Directory placeholder
 │   └── 📄 stats.json                # Encrypted statistics (generated)
 │
@@ -130,7 +130,7 @@ vs_code_extension/
 - `*.js.map` - Source maps for debugging
 
 ### During Use
-- `.howdare/stats.json` - Encrypted statistics
+- `.whodare/stats.json` - Encrypted statistics
 - `web-viewer/dist/` - Production build
 
 ---
@@ -179,7 +179,7 @@ web-viewer/dist/
 - `package.json` files
 
 ### Optional Commit
-- `.howdare/stats.json` (encrypted stats)
+- `.whodare/stats.json` (encrypted stats)
 
 ### Never Commit
 - `node_modules/`

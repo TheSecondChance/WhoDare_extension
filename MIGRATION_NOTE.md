@@ -2,15 +2,15 @@
 
 ## What Changed
 
-The encryption key generation was updated from using `codetracker-default-key` to `howdare-default-key` to match the new branding.
+The encryption key generation was updated from using `codetracker-default-key` to `whodare-default-key` to match the new branding.
 
 ## Action Required
 
-**If you have existing `.howdare/stats.json` files created before this update:**
+**If you have existing `.whodare/stats.json` files created before this update:**
 
 1. Delete the old stats file:
    ```bash
-   rm .howdare/stats.json
+   rm .whodare/stats.json
    ```
 
 2. Recompile and run the extension:
@@ -29,7 +29,7 @@ The web viewer now uses the **Web Crypto API** for proper AES-256-GCM decryption
 
 ### What Was Fixed:
 
-1. **Encryption Key** - Now uses `howdare-default-key` suffix
+1. **Encryption Key** - Now uses `whodare-default-key` suffix
 2. **Decryption Method** - Switched from crypto-js (CBC mode) to Web Crypto API (GCM mode)
 3. **Compatibility** - Now properly decrypts files encrypted by the VS Code extension
 
@@ -37,7 +37,7 @@ The web viewer now uses the **Web Crypto API** for proper AES-256-GCM decryption
 
 After regenerating your stats file:
 
-1. Make sure the file exists: `.howdare/stats.json`
+1. Make sure the file exists: `.whodare/stats.json`
 2. Push to GitHub
 3. Enter your repo URL in the web viewer: `https://github.com/yourusername/yourrepo`
 4. It should automatically decrypt and display your stats!

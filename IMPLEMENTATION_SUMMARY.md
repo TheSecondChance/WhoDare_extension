@@ -37,7 +37,7 @@ All planned features have been implemented and tested. The system is ready for u
 5. Fallback to human for edge cases
 
 **Data Storage:**
-- Location: `.howdare/stats.json`
+- Location: `.whodare/stats.json`
 - Format: Encrypted JSON with AES-256-GCM
 - Security: PBKDF2 key derivation (100,000 iterations)
 - Tracking: Every change event with timestamp
@@ -304,7 +304,7 @@ web-viewer/
 1. Install extension in VS Code
 2. Start coding (automatic tracking)
 3. View stats in editor
-4. Push `.howdare/stats.json` to GitHub
+4. Push `.whodare/stats.json` to GitHub
 5. View on web: enter GitHub URL
 6. Share statistics publicly!
 
