@@ -195,6 +195,17 @@ function App() {
               View on GitHub
             </a>
           </p>
+          <p className="mt-2">
+            Developed by{" "}
+            <a
+              href="https://www.linkedin.com/in/eyasu-sintayehu-2995bb324/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-foreground"
+            >
+              Eyasu Sintayehu
+            </a>
+          </p>
         </div>
       </footer>
     </div>
