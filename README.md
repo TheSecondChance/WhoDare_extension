@@ -2,6 +2,8 @@
 
 A VS Code extension that automatically tracks and visualizes AI-generated vs human-written code contributions in real-time.
 
+![whoDare Demo](whoDare.gif)
+
 ## 🚀 Features
 
 - **Real-time Tracking**: Automatically monitors all text changes across your workspace
