@@ -57,10 +57,10 @@ You can download the extension directly from our website:
 You can also install the `.vsix` file using the command line:
 
 ```bash
-code --install-extension path/to/whodare-1.0.3.vsix
+code --install-extension path/to/whodare-1.0.4.vsix
 ```
 
-Replace `path/to/whodare-1.0.2.vsix` with the actual path to your downloaded file.
+Replace `path/to/whodare-1.0.4.vsix` with the actual path to your downloaded file.
 
 ## How It Works
 

@@ -2,7 +2,7 @@
   "name": "whodare",
   "displayName": "whoDare",
   "description": "Tracks human vs AI code contributions in real-time",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "icon": "whoDare.jpg",
   "publisher": "TheSecondChance",
   "author": {

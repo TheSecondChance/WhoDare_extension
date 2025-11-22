@@ -196,10 +196,10 @@ function App() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Version</span>
-                  <span className="font-mono font-semibold">v1.0.3</span>
+                  <span className="font-mono font-semibold">v1.0.4</span>
                 </div>
                 <a
-                  href="/whodare-1.0.3.vsix"
+                  href="/whodare-1.0.4.vsix"
                   download
                   className="inline-flex items-center justify-center w-full h-10 px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                 >
