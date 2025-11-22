@@ -15,7 +15,7 @@ import { FileBreakdown } from "./components/FileBreakdown";
 import { DailyBreakdown } from "./components/DailyBreakdown";
 import { fetchData } from "./utils/github";
 import { TrackerData } from "./types";
-import { Moon, Sun, Github, Loader2, Download } from "lucide-react";
+import { Moon, Sun, Github, Loader2, Download, Video } from "lucide-react";
 
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -74,13 +74,24 @@ function App() {
             <Github className="h-6 w-6" />
             <h1 className="text-2xl font-bold">whoDare Viewer</h1>
           </div>
-          <Button variant="ghost" size="sm" onClick={toggleTheme}>
-            {theme === "light" ? (
-              <Moon className="h-5 w-5" />
-            ) : (
-              <Sun className="h-5 w-5" />
-            )}
-          </Button>
+          <div className="flex items-center gap-2">
+            <a
+              href="https://github.com/TheSecondChance/testWhoDare?tab=readme-ov-file#whodare---ai-vs-human-code-contribution-tracker"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 h-9 px-3 rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <Video className="h-5 w-5" />
+              <span className="hidden sm:inline">Watch Demo</span>
+            </a>
+            <Button variant="ghost" size="sm" onClick={toggleTheme}>
+              {theme === "light" ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
+              )}
+            </Button>
+          </div>
         </div>
       </header>
 
