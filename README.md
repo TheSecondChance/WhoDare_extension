@@ -1,73 +1,119 @@
 # whoDare - AI vs Human Code Contribution Tracker
 
-A comprehensive VS Code extension and web viewer for tracking and visualizing AI-generated vs human-written code contributions.
+A VS Code extension that automatically tracks and visualizes AI-generated vs human-written code contributions in real-time.
 
 ## 🚀 Features
 
-### VS Code Extension
-
-- **Real-time Tracking**: Monitors text changes across all open files
-- **AI Detection**: Automatically identifies AI-generated code using inline completion API and heuristics
-- **Plain JSON Storage**: Stores statistics in readable `.whodare/stats.json`
+- **Real-time Tracking**: Automatically monitors all text changes across your workspace
+- **AI Detection**: Intelligently identifies AI-generated code using:
+  - VS Code inline completion API (Copilot, etc.)
+  - Heuristic analysis of large insertions and multi-line changes
+  - Pattern recognition for formatted code blocks and paste operations
+- **Plain JSON Storage**: All statistics saved in readable `.whodare/stats.json` format
 - **Per-file Breakdown**: Track contributions on a file-by-file basis
-- **Historical Tracking**: Complete history of every code change event
+- **Historical Tracking**: Complete history of every code change event with timestamps
 - **Daily Statistics**: Track your coding activity day by day
-- **Visual Stats**: Beautiful in-editor statistics dashboard
-
-### Web Viewer
-
-- **GitHub Integration**: Fetch and display stats from any GitHub repository
-- **Plain JSON Format**: Directly loads readable statistics files
-- **Rich Visualizations**: Pie charts, timelines, daily breakdowns, and detailed tables
-- **Dark/Light Mode**: Automatic theme detection with manual toggle
-- **Responsive Design**: Works on all devices
-- **Modern UI**: Built with React, TypeScript, and shadcn/ui
+- **Visual Stats Dashboard**: Beautiful in-editor statistics panel with charts and tables
+- **Status Bar Integration**: Quick view of your Human vs AI percentage right in the status bar
 
 ## 📦 Installation
 
-### VS Code Extension
+### Download and Install from Website
 
-1. Clone this repository
-2. Open in VS Code
-3. Run `npm install`
-4. Press F5 to start debugging
-5. The extension will activate in a new VS Code window
+you can download the extension directly from our website:
 
-### Web Viewer
+1. **Download the Extension**:
+
+   - Visit [https://whodare.joshsparks.dev/](https://whodare.joshsparks.dev/)
+   - Download the `.vsix` file from the website
+
+2. **Install in VS Code**:
+
+   - Open VS Code
+   - Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac) to open the Command Palette
+   - Type `Extensions: Install from VSIX...` and select it
+   - Navigate to the downloaded `.vsix` file and select it
+   - VS Code will install the extension automatically
+
+3. **Verify Installation**:
+   - After installation, you may need to reload VS Code
+   - You should see the `whoDare` status bar item in the bottom-left corner
+   - The extension is now ready to use!
+
+### Alternative: Command Line Installation
+
+You can also install the `.vsix` file using the command line:
 
 ```bash
-cd web-viewer
-npm install
-npm run dev
+code --install-extension path/to/whodare-1.0.0.vsix
 ```
 
-## 🎯 Usage
+Replace `path/to/whodare-1.0.0.vsix` with the actual path to your downloaded file.
 
-### Extension Setup
+## 🎯 How It Works
+
+### Automatic Activation
 
 1. Open any workspace in VS Code
-2. The extension activates automatically
-3. Start coding - changes are tracked automatically
-4. Click the status bar item to view statistics
-5. Stats are saved to `.whodare/stats.json` (plain JSON format)
+2. The extension activates automatically when you start coding
+3. All code changes are tracked in real-time - no configuration needed!
 
-### Viewing Statistics
+### Tracking Process
+
+The extension monitors:
+
+- **Text insertions**: New code you write or AI suggests
+- **Text deletions**: Code you remove
+- **Text modifications**: Code you edit or replace
+
+Each change is automatically classified as:
+
+- **Human-written**: Small, incremental changes you type manually
+- **AI-generated**: Large insertions, multi-line completions, or accepted inline suggestions
+
+### Viewing Your Statistics
 
 #### In VS Code
 
-- Click the whoDare status bar item
-- Or run command: `whoDare: Show Code Statistics`
+- **Status Bar**: Click the `whoDare` status bar item (bottom-left) to see your Human vs AI percentage
+- **Command Palette**: Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac) and run `whoDare: Show Code Statistics`
+- **Statistics Panel**: View detailed breakdowns including:
+  - Total lines and characters (Human vs AI)
+  - Per-file contribution breakdown
+  - Historical event timeline
+  - Visual pie charts
 
 #### On the Web
 
-1. Build and run the web viewer
-2. Enter your GitHub repository URL
-3. Data is automatically loaded
-4. View beautiful visualizations!
+1. **Commit your stats**: Push the `.whodare/stats.json` file to your GitHub repository
+2. **Visit the web viewer**: Go to [https://whodare.joshsparks.dev/](https://whodare.joshsparks.dev/)
+3. **Enter your repo URL**: Paste your GitHub repository URL (e.g., `https://github.com/username/repo`)
+4. **View visualizations**: See beautiful charts, timelines, and daily breakdowns!
 
-## 📊 Data Format
+The web viewer automatically fetches your `stats.json` file from GitHub and displays rich visualizations including:
 
-The extension stores data in plain JSON format in `.whodare/stats.json`:
+- Interactive pie charts
+- Daily activity timelines
+- Detailed file-by-file tables
+- Dark/light mode support
+
+## 📊 Data Storage
+
+All statistics are saved in `.whodare/stats.json` in your workspace root. This file contains:
+
+- **Per-file statistics**: Lines and characters for each file
+- **Session totals**: Overall human vs AI contribution counts
+- **Daily breakdown**: Day-by-day activity tracking
+- **Complete history**: Every code change event with timestamps
+
+The data format is plain JSON, making it easy to:
+
+- Commit to version control
+- Share with others
+- Analyze programmatically
+- View in the web viewer
+
+### Example Data Structure
 
 ```json
 {
@@ -82,7 +128,6 @@ The extension stores data in plain JSON format in `.whodare/stats.json`:
       "history": [...]
     }
   },
-  "globalHistory": [...],
   "sessionStats": {
     "totalHumanLines": 145,
     "totalAiLines": 67,
@@ -103,121 +148,66 @@ The extension stores data in plain JSON format in `.whodare/stats.json`:
 }
 ```
 
-The data contains:
+## 🎨 AI Detection Methods
 
-- Per-file statistics (lines, characters)
-- Historical events (timestamps, operations)
-- Session statistics (totals)
-- Daily statistics (day-by-day breakdown)
+The extension uses multiple methods to accurately classify code:
 
-## 🛠 Development
+1. **Inline Completion API**: Tracks when you accept VS Code inline completions (GitHub Copilot, etc.)
+2. **Heuristic Analysis**: Identifies large insertions (>50 characters) or multi-line changes as likely AI-generated
+3. **Pattern Recognition**: Detects formatted code blocks and paste operations
+4. **Smart Defaults**: Small, incremental changes are classified as human-written
 
-### Extension Development
+## 📝 What Gets Tracked
 
-```bash
-# Install dependencies
-npm install
+- ✅ All code files in your workspace
+- ✅ Lines of code (human vs AI)
+- ✅ Character count
+- ✅ File-by-file breakdown
+- ✅ Historical timeline of all changes
+- ✅ Operation types (add/delete/modify)
+- ✅ Timestamps for every event
 
-# Compile TypeScript
-npm run compile
+## 🚫 What Doesn't Get Tracked
 
-# Watch mode
-npm run watch
-```
+The extension automatically skips:
 
-### Web Viewer Development
-
-```bash
-cd web-viewer
-npm install
-npm run dev
-```
-
-## 📁 Project Structure
-
-```
-.
-├── src/
-│   ├── extension.ts      # Main extension logic
-│   ├── crypto.ts         # Encryption/decryption utilities
-│   ├── storage.ts        # File persistence operations
-│   └── types.ts          # TypeScript interfaces
-├── web-viewer/
-│   ├── src/
-│   │   ├── App.tsx       # Main React component
-│   │   ├── components/   # UI components
-│   │   ├── utils/        # Utilities (crypto, GitHub)
-│   │   └── types.ts      # TypeScript interfaces
-│   └── ...config files
-├── package.json
-└── README.md
-```
-
-## 🎨 Technology Stack
-
-### Extension
-
-- TypeScript
-- VS Code Extension API
-- Node.js crypto module
-
-### Web Viewer
-
-- React 18
-- TypeScript
-- Vite
-- Tailwind CSS
-- shadcn/ui
-- Recharts
-- crypto-js
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📝 License
-
-MIT License - feel free to use this project for any purpose.
-
-## 🌟 Features in Detail
-
-### AI Detection Methods
-
-1. **Inline Completion API**: Tracks VS Code inline completions (Copilot, etc.)
-2. **Heuristic Analysis**: Large insertions, multi-line changes
-3. **Pattern Recognition**: Formatted code blocks, paste operations
-4. **Fallback**: Manual classification for edge cases
-
-### Statistics Tracked
-
-- Lines of code (human vs AI)
-- Character count
-- File-by-file breakdown
-- Historical timeline
-- Operation types (add/delete/modify)
-- Timestamps for all events
-
-### Web Viewer Features
-
-- Real-time GitHub fetching
-- Automatic data loading
-- Multiple chart types
-- Daily breakdown table
-- Shareable URLs
-- Mobile-friendly interface
+- `.whodare/` directory (to avoid tracking itself)
+- `node_modules/` directories
+- `.git/` directories
+- `dist/`, `build/`, `out/` directories
+- `.log` files
+- Other auto-generated files
 
 ## 🚦 Getting Started
 
-1. **Install Extension**: Load the extension in VS Code
-2. **Start Coding**: Write code normally
-3. **View Stats**: Click status bar or run command
-4. **Push to GitHub**: Commit `.whodare/stats.json`
-5. **Share**: Use web viewer to visualize publicly
+1. **Download & Install**: Download the `.vsix` file from [https://whodare.joshsparks.dev/](https://whodare.joshsparks.dev/) and install it in VS Code (see Installation section above)
+2. **Start Coding**: Just write code normally - tracking happens automatically!
+3. **Check Status Bar**: See your Human vs AI percentage in real-time in the bottom-left status bar
+4. **View Detailed Stats**: Click the status bar item or run the `whoDare: Show Code Statistics` command
+5. **Share Your Stats**: Commit `.whodare/stats.json` to GitHub
+6. **Visualize Online**: Visit [https://whodare.joshsparks.dev/](https://whodare.joshsparks.dev/) and enter your repo URL to see beautiful visualizations
+
+## ⚙️ Configuration
+
+The extension works out of the box with no configuration needed. Optional settings:
+
+- **Custom Encryption Key**: Set `whoDare.encryptionKey` in VS Code settings if you want to use a custom encryption key for your statistics file
+
+## 🤝 Sharing Your Statistics
+
+1. Make sure `.whodare/stats.json` is committed to your repository
+2. Push to GitHub
+3. Share the link: `https://whodare.joshsparks.dev/?repo=YOUR_GITHUB_REPO_URL`
+4. Others can view your coding statistics with beautiful visualizations!
 
 ## 📧 Support
 
-For issues, questions, or suggestions, please open an issue on GitHub.
+For issues, questions, or suggestions, please open an issue on [GitHub](https://github.com/TheSecondChance/WhoDare_extension/issues).
+
+## 📝 License
+
+MIT License - feel free to use this extension for any purpose.
 
 ## 🎉 Acknowledgments
 
-Built with ❤️ using modern web technologies and best practices.
+Built with ❤️ to help developers understand their coding patterns and AI tool usage.
