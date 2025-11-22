@@ -89,99 +89,101 @@ function App() {
         <div className="flex gap-6">
           {/* Main Content Area */}
           <main className="flex-1 min-w-0">
-        {/* Input Section */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>View Repository Statistics</CardTitle>
-            <CardDescription>
-              Enter a GitHub repository URL to view its code statistics. The
-              repository must contain a{" "}
-              <code className="px-1 py-0.5 bg-muted rounded">
-                .whodare/stats.json
-              </code>{" "}
-              file.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <label htmlFor="repo-url" className="text-sm font-medium">
-                GitHub Repository URL
-              </label>
-              <Input
-                id="repo-url"
-                type="text"
-                placeholder="https://github.com/owner/repo"
-                value={repoUrl}
-                onChange={(e) => setRepoUrl(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleFetchData()}
-              />
-              <p className="text-xs text-muted-foreground">
-                The viewer will automatically try common branches (main,
-                master).
-              </p>
-            </div>
+            {/* Input Section */}
+            <Card className="mb-8">
+              <CardHeader>
+                <CardTitle>View Repository Statistics</CardTitle>
+                <CardDescription>
+                  Enter a GitHub repository URL to view its code statistics. The
+                  repository must contain a{" "}
+                  <code className="px-1 py-0.5 bg-muted rounded">
+                    .whodare/stats.json
+                  </code>{" "}
+                  file.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="repo-url" className="text-sm font-medium">
+                    GitHub Repository URL
+                  </label>
+                  <Input
+                    id="repo-url"
+                    type="text"
+                    placeholder="https://github.com/owner/repo"
+                    value={repoUrl}
+                    onChange={(e) => setRepoUrl(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleFetchData()}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    The viewer will automatically try common branches (main,
+                    master).
+                  </p>
+                </div>
 
-            {error && (
-              <div className="p-4 bg-destructive/10 border border-destructive rounded-md">
-                <p className="text-sm text-destructive font-medium">Error</p>
-                <p className="text-sm text-destructive mt-1">{error}</p>
+                {error && (
+                  <div className="p-4 bg-destructive/10 border border-destructive rounded-md">
+                    <p className="text-sm text-destructive font-medium">
+                      Error
+                    </p>
+                    <p className="text-sm text-destructive mt-1">{error}</p>
+                  </div>
+                )}
+
+                <Button
+                  onClick={handleFetchData}
+                  disabled={loading}
+                  className="w-full"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Fetching...
+                    </>
+                  ) : (
+                    "Fetch Statistics"
+                  )}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Statistics Display */}
+            {data && (
+              <div className="space-y-8">
+                {/* Summary Cards */}
+                <StatsSummary stats={data.sessionStats} />
+
+                {/* Enhanced Stats Chart */}
+                <StatsChart
+                  sessionStats={data.sessionStats}
+                  dailyStats={data.dailyStats || []}
+                />
+
+                {/* Timeline Chart */}
+                <TimelineChart dailyStats={data.dailyStats || []} />
+
+                {/* Daily Breakdown */}
+                <DailyBreakdown dailyStats={data.dailyStats || []} />
+
+                {/* File Breakdown */}
+                <FileBreakdown files={data.files} />
               </div>
             )}
 
-            <Button
-              onClick={handleFetchData}
-              disabled={loading}
-              className="w-full"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Fetching...
-                </>
-              ) : (
-                "Fetch Statistics"
-              )}
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Statistics Display */}
-        {data && (
-          <div className="space-y-8">
-            {/* Summary Cards */}
-            <StatsSummary stats={data.sessionStats} />
-
-            {/* Enhanced Stats Chart */}
-            <StatsChart
-              sessionStats={data.sessionStats}
-              dailyStats={data.dailyStats || []}
-            />
-
-            {/* Timeline Chart */}
-            <TimelineChart dailyStats={data.dailyStats || []} />
-
-            {/* Daily Breakdown */}
-            <DailyBreakdown dailyStats={data.dailyStats || []} />
-
-            {/* File Breakdown */}
-            <FileBreakdown files={data.files} />
-          </div>
-        )}
-
-        {/* Empty State */}
-        {!data && !loading && (
-          <Card className="border-dashed">
-            <CardContent className="flex flex-col items-center justify-center py-16">
-              <Github className="h-16 w-16 text-muted-foreground mb-4" />
-              <h2 className="text-xl font-semibold mb-2">No Data Loaded</h2>
-              <p className="text-muted-foreground text-center max-w-md">
-                Enter a GitHub repository URL above to view code statistics.
-                Make sure the repository has the whoDare extension enabled and
-                has pushed the stats file.
-              </p>
-            </CardContent>
-          </Card>
-        )}
+            {/* Empty State */}
+            {!data && !loading && (
+              <Card className="border-dashed">
+                <CardContent className="flex flex-col items-center justify-center py-16">
+                  <Github className="h-16 w-16 text-muted-foreground mb-4" />
+                  <h2 className="text-xl font-semibold mb-2">No Data Loaded</h2>
+                  <p className="text-muted-foreground text-center max-w-md">
+                    Enter a GitHub repository URL above to view code statistics.
+                    Make sure the repository has the whoDare extension enabled
+                    and has pushed the stats file.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </main>
 
           {/* Right Sidebar - Download Section */}
@@ -194,22 +196,36 @@ function App() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Version</span>
-                  <span className="font-mono font-semibold">v1.0.1</span>
+                  <span className="font-mono font-semibold">v1.0.2</span>
                 </div>
                 <Button className="w-full" asChild>
-                  <a href="/whodare-1.0.1.vsix" download className="flex items-center justify-center">
+                  <a
+                    href="/whodare-1.0.1.vsix"
+                    download
+                    className="flex items-center justify-center"
+                  >
                     <Download className="mr-2 h-4 w-4" />
                     Download .vsix
                   </a>
                 </Button>
-                
+
                 <div className="border-t pt-4 space-y-3">
                   <h4 className="text-sm font-semibold">How to Install</h4>
                   <ol className="text-xs text-muted-foreground space-y-2 list-decimal list-inside">
                     <li>Download the .vsix file above</li>
                     <li>Open VS Code</li>
-                    <li>Press <kbd className="px-1 py-0.5 bg-muted rounded text-xs">Ctrl+Shift+P</kbd></li>
-                    <li>Type: <code className="px-1 py-0.5 bg-muted rounded">Extensions: Install from VSIX...</code></li>
+                    <li>
+                      Press{" "}
+                      <kbd className="px-1 py-0.5 bg-muted rounded text-xs">
+                        Ctrl+Shift+P
+                      </kbd>
+                    </li>
+                    <li>
+                      Type:{" "}
+                      <code className="px-1 py-0.5 bg-muted rounded">
+                        Extensions: Install from VSIX...
+                      </code>
+                    </li>
                     <li>Select the downloaded file</li>
                   </ol>
                 </div>
@@ -221,7 +237,12 @@ function App() {
                     <li>Start coding - tracking happens in real-time</li>
                     <li>Check status bar for Human vs AI %</li>
                     <li>Click status bar to view detailed stats</li>
-                    <li>Stats saved to <code className="px-1 py-0.5 bg-muted rounded">.whodare/stats.json</code></li>
+                    <li>
+                      Stats saved to{" "}
+                      <code className="px-1 py-0.5 bg-muted rounded">
+                        .whodare/stats.json
+                      </code>
+                    </li>
                     <li>Push to GitHub and view here!</li>
                   </ul>
                 </div>
