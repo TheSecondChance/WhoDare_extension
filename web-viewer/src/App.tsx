@@ -15,7 +15,7 @@ import { FileBreakdown } from "./components/FileBreakdown";
 import { DailyBreakdown } from "./components/DailyBreakdown";
 import { fetchData } from "./utils/github";
 import { TrackerData } from "./types";
-import { Moon, Sun, Github, Loader2 } from "lucide-react";
+import { Moon, Sun, Github, Loader2, Download } from "lucide-react";
 
 function App() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -85,7 +85,10 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex gap-6">
+          {/* Main Content Area */}
+          <main className="flex-1 min-w-0">
         {/* Input Section */}
         <Card className="mb-8">
           <CardHeader>
@@ -179,7 +182,54 @@ function App() {
             </CardContent>
           </Card>
         )}
-      </main>
+          </main>
+
+          {/* Right Sidebar - Download Section */}
+          <aside className="w-80 flex-shrink-0">
+            <Card className="sticky top-8">
+              <CardHeader>
+                <CardTitle className="text-lg">Get Extension</CardTitle>
+                <CardDescription>Download & Install</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Version</span>
+                  <span className="font-mono font-semibold">v1.0.1</span>
+                </div>
+                <Button className="w-full" asChild>
+                  <a href="/whodare-1.0.1.vsix" download className="flex items-center justify-center">
+                    <Download className="mr-2 h-4 w-4" />
+                    Download .vsix
+                  </a>
+                </Button>
+                
+                <div className="border-t pt-4 space-y-3">
+                  <h4 className="text-sm font-semibold">How to Install</h4>
+                  <ol className="text-xs text-muted-foreground space-y-2 list-decimal list-inside">
+                    <li>Download the .vsix file above</li>
+                    <li>Open VS Code</li>
+                    <li>Press <kbd className="px-1 py-0.5 bg-muted rounded text-xs">Ctrl+Shift+P</kbd></li>
+                    <li>Type: <code className="px-1 py-0.5 bg-muted rounded">Extensions: Install from VSIX...</code></li>
+                    <li>Select the downloaded file</li>
+                  </ol>
+                </div>
+
+                <div className="border-t pt-4 space-y-3">
+                  <h4 className="text-sm font-semibold">How to Use</h4>
+                  <ul className="text-xs text-muted-foreground space-y-2 list-disc list-inside">
+                    <li>Extension activates automatically</li>
+                    <li>Start coding - tracking happens in real-time</li>
+                    <li>Check status bar for Human vs AI %</li>
+                    <li>Click status bar to view detailed stats</li>
+                    <li>Stats saved to <code className="px-1 py-0.5 bg-muted rounded">.whodare/stats.json</code></li>
+                    <li>Push to GitHub and view here!</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </aside>
+        </div>
+      </div>
 
       {/* Footer */}
       <footer className="border-t mt-16">
