@@ -18,25 +18,35 @@ A VS Code extension that automatically tracks and visualizes AI-generated vs hum
 
 ## 📦 Installation
 
+### For Cursor Users (Easiest Method)
+
+If you're using **Cursor IDE**, you can install the extension directly from the Extensions tab:
+
+1. Open Cursor IDE
+2. Click on the Extensions icon in the sidebar (or press `Ctrl+Shift+X`)
+3. Search for **"whoDare"** in the search bar
+4. Click **Install**
+5. The extension will activate automatically!
+
 ### Download and Install from Website
 
-you can download the extension directly from our website:
+You can download the extension directly from our website:
 
 1. **Download the Extension**:
 
    - Visit [https://whodare.joshsparks.dev/](https://whodare.joshsparks.dev/)
    - Download the `.vsix` file from the website
 
-2. **Install in VS Code**:
+2. **Install in VS Code/Cursor**:
 
-   - Open VS Code
+   - Open VS Code or Cursor
    - Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac) to open the Command Palette
    - Type `Extensions: Install from VSIX...` and select it
    - Navigate to the downloaded `.vsix` file and select it
-   - VS Code will install the extension automatically
+   - The extension will install automatically
 
 3. **Verify Installation**:
-   - After installation, you may need to reload VS Code
+   - After installation, you may need to reload your editor
    - You should see the `whoDare` status bar item in the bottom-left corner
    - The extension is now ready to use!
 
@@ -45,12 +55,12 @@ you can download the extension directly from our website:
 You can also install the `.vsix` file using the command line:
 
 ```bash
-code --install-extension path/to/whodare-1.0.0.vsix
+code --install-extension path/to/whodare-1.0.3.vsix
 ```
 
-Replace `path/to/whodare-1.0.0.vsix` with the actual path to your downloaded file.
+Replace `path/to/whodare-1.0.2.vsix` with the actual path to your downloaded file.
 
-## 🎯 How It Works
+## How It Works
 
 ### Automatic Activation
 
@@ -97,7 +107,7 @@ The web viewer automatically fetches your `stats.json` file from GitHub and disp
 - Detailed file-by-file tables
 - Dark/light mode support
 
-## 📊 Data Storage
+## Data Storage
 
 All statistics are saved in `.whodare/stats.json` in your workspace root. This file contains:
 
@@ -148,7 +158,7 @@ The data format is plain JSON, making it easy to:
 }
 ```
 
-## 🎨 AI Detection Methods
+## AI Detection Methods
 
 The extension uses multiple methods to accurately classify code:
 
@@ -157,17 +167,17 @@ The extension uses multiple methods to accurately classify code:
 3. **Pattern Recognition**: Detects formatted code blocks and paste operations
 4. **Smart Defaults**: Small, incremental changes are classified as human-written
 
-## 📝 What Gets Tracked
+## What Gets Tracked
 
-- ✅ All code files in your workspace
-- ✅ Lines of code (human vs AI)
-- ✅ Character count
-- ✅ File-by-file breakdown
-- ✅ Historical timeline of all changes
-- ✅ Operation types (add/delete/modify)
-- ✅ Timestamps for every event
+- All code files in your workspace
+- Lines of code (human vs AI)
+- Character count
+- File-by-file breakdown
+- Historical timeline of all changes
+- Operation types (add/delete/modify)
+- Timestamps for every event
 
-## 🚫 What Doesn't Get Tracked
+## What Doesn't Get Tracked
 
 The extension automatically skips:
 
@@ -178,7 +188,7 @@ The extension automatically skips:
 - `.log` files
 - Other auto-generated files
 
-## 🚦 Getting Started
+## Getting Started
 
 1. **Download & Install**: Download the `.vsix` file from [https://whodare.joshsparks.dev/](https://whodare.joshsparks.dev/) and install it in VS Code (see Installation section above)
 2. **Start Coding**: Just write code normally - tracking happens automatically!
@@ -187,27 +197,27 @@ The extension automatically skips:
 5. **Share Your Stats**: Commit `.whodare/stats.json` to GitHub
 6. **Visualize Online**: Visit [https://whodare.joshsparks.dev/](https://whodare.joshsparks.dev/) and enter your repo URL to see beautiful visualizations
 
-## ⚙️ Configuration
+## Configuration
 
 The extension works out of the box with no configuration needed. Optional settings:
 
 - **Custom Encryption Key**: Set `whoDare.encryptionKey` in VS Code settings if you want to use a custom encryption key for your statistics file
 
-## 🤝 Sharing Your Statistics
+## Sharing Your Statistics
 
 1. Make sure `.whodare/stats.json` is committed to your repository
 2. Push to GitHub
 3. Share the link: `https://whodare.joshsparks.dev/?repo=YOUR_GITHUB_REPO_URL`
 4. Others can view your coding statistics with beautiful visualizations!
 
-## 📧 Support
+## Support
 
 For issues, questions, or suggestions, please open an issue on [GitHub](https://github.com/TheSecondChance/WhoDare_extension/issues).
 
-## 📝 License
+## License
 
 MIT License - feel free to use this extension for any purpose.
 
-## 🎉 Acknowledgments
+## Acknowledgments
 
-Built with ❤️ to help developers understand their coding patterns and AI tool usage.
+Built with love to help developers understand their coding patterns and AI tool usage.

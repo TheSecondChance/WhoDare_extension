@@ -196,24 +196,34 @@ function App() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Version</span>
-                  <span className="font-mono font-semibold">v1.0.2</span>
+                  <span className="font-mono font-semibold">v1.0.3</span>
                 </div>
-                <Button className="w-full" asChild>
-                  <a
-                    href="/whodare-1.0.1.vsix"
-                    download
-                    className="flex items-center justify-center"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Download .vsix
-                  </a>
-                </Button>
+                <a
+                  href="/whodare-1.0.3.vsix"
+                  download
+                  className="inline-flex items-center justify-center w-full h-10 px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                >
+                  <Download className="mr-2 h-4 w-4" />
+                  Download .vsix
+                </a>
 
                 <div className="border-t pt-4 space-y-3">
-                  <h4 className="text-sm font-semibold">How to Install</h4>
+                  <h4 className="text-sm font-semibold">For Cursor Users</h4>
+                  <div className="text-xs text-muted-foreground space-y-1">
+                    <p>
+                      Search{" "}
+                      <strong className="text-foreground">"whoDare"</strong> in
+                      Extensions tab
+                    </p>
+                    <p className="text-[10px]">(Ctrl+Shift+X or Cmd+Shift+X)</p>
+                  </div>
+                </div>
+
+                <div className="border-t pt-4 space-y-3">
+                  <h4 className="text-sm font-semibold">Manual Installation</h4>
                   <ol className="text-xs text-muted-foreground space-y-2 list-decimal list-inside">
                     <li>Download the .vsix file above</li>
-                    <li>Open VS Code</li>
+                    <li>Open VS Code or Cursor</li>
                     <li>
                       Press{" "}
                       <kbd className="px-1 py-0.5 bg-muted rounded text-xs">
