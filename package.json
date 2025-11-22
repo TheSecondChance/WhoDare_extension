@@ -3,6 +3,7 @@
   "displayName": "whoDare",
   "description": "Tracks human vs AI code contributions in real-time",
   "version": "1.0.1",
+  "icon": "whoDare.jpg",
   "publisher": "TheSecondChance",
   "author": {
     "name": "Eyasu Sintayehu",
