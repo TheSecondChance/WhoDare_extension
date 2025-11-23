@@ -197,12 +197,12 @@ export function AboutPage() {
               coding patterns, all while keeping your code completely safe.
             </p>
             <Button
-              variant="secondary"
+              variant="outline"
               size="lg"
               onClick={() => navigate("/")}
-              className="font-semibold"
+              className="font-semibold bg-white text-blue-600 hover:bg-gray-100 border-white"
             >
-              Get Started Now
+              Get Started - Download the Extension
             </Button>
           </CardContent>
         </Card>
