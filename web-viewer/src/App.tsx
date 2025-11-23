@@ -79,7 +79,7 @@ function App() {
             <p>
               whoDare - Track human vs AI code contributions |{" "}
               <a
-                href="https://github.com"
+                href="https://github.com/TheSecondChance/WhoDare_extension/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-foreground"
