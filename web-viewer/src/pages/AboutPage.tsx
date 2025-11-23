@@ -200,7 +200,7 @@ export function AboutPage() {
               variant="outline"
               size="lg"
               onClick={() => navigate("/")}
-              className="font-semibold bg-white text-blue-600 hover:bg-gray-100 border-white"
+              className="font-semibold bg-white text-blue-600 hover:bg-white/90 hover:text-blue-700 border-white transition-colors"
             >
               Get Started - Download the Extension
             </Button>
