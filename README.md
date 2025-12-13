@@ -4,7 +4,7 @@ A VS Code extension that automatically tracks and visualizes AI-generated vs hum
 
 ![whoDare Demo](whoDare.gif)
 
-## 🚀 Features
+## Features
 
 - **Real-time Tracking**: Automatically monitors all text changes across your workspace
 - **AI Detection**: Intelligently identifies AI-generated code using:
@@ -18,7 +18,7 @@ A VS Code extension that automatically tracks and visualizes AI-generated vs hum
 - **Visual Stats Dashboard**: Beautiful in-editor statistics panel with charts and tables
 - **Status Bar Integration**: Quick view of your Human vs AI percentage right in the status bar
 
-## 📦 Installation
+## Installation
 
 ### For Cursor Users (Easiest Method)
 

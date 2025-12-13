@@ -53,7 +53,7 @@ The viewer accepts various GitHub URL formats:
 
 ## Technology Stack
 
-- **React 18** - UI framework
+- **React 19** - UI framework
 - **TypeScript** - Type safety
 - **Vite** - Build tool and dev server
 - **Tailwind CSS** - Styling
